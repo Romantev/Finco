@@ -1,16 +1,31 @@
 import "./Login.css";
 // import methods
 import { NavLink, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 // import components
 import HeaderSetup from "../../components/Header/HeaderSetup";
+// import context
+import { UserContext } from "../../context/UserContext";
 
 const Login = () => {
+  const { refetch, user } = useContext(UserContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [cards, setCards] = useState([]);
 
-  const navigate = useNavigate();
+  const nav = useNavigate();
+
+  useEffect(() => {
+    // check if user is login
+    if (user !== null) {
+      const fetchCards = async () => {
+        const data = await axios.get(`/api/users/secure/${user.email}`);
+        setCards({ data });
+      };
+      fetchCards();
+    }
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -21,7 +36,12 @@ const Login = () => {
 
     try {
       const login = await axios.post("/api/users/login", reqBody);
-      navigate("/home");
+      refetch();
+      if (cards.length === 0) {
+        nav("/account-setup");
+      } else {
+        nav("/");
+      }
     } catch (error) {
       console.log("Error at Login", error);
     }
@@ -34,7 +54,7 @@ const Login = () => {
       <HeaderSetup />
       <main className="login-main">
         <div className="login-header">
-          <h1>Welcome back</h1>
+          <h1>Welcome to Finco</h1>
         </div>
 
         <form onSubmit={handleSubmit} className="login-form">

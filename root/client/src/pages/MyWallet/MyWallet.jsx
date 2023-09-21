@@ -9,7 +9,6 @@ import OneCard from "../../components/OneCard/OneCard";
 import Header from "../../components/Header/Header";
 // import context
 import { OpenBoxContext } from "../../context/context";
-import { checkAuthentication } from "../../utils/authUtils";
 
 const MyWallet = () => {
   const [cards, setCards] = useState([]);
@@ -17,24 +16,20 @@ const MyWallet = () => {
   const { openBox, setOpenBox } = useContext(OpenBoxContext);
 
   const getCards = async () => {
-
     const userRes = await checkAuthentication();
     const user = userRes.user.data;
 
     const reqBody = {
-      id: user._id
+      id: user._id,
     };
     if (!reqBody.id) {
-      return null
-    };
-    console.log({ reqBody })
-    const response = await axios.post('/auth-api/users/acc', reqBody);
+      return null;
+    }
+    const response = await axios.post("/auth-api/users/acc", reqBody);
     const userAcc = response.data;
 
-    console.log({ userAcc });
     setCards(userAcc.Wallet);
   };
-
 
   useEffect(() => {
     setOpenBox(false);

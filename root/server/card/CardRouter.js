@@ -29,13 +29,14 @@ cardRouter.get("/:id", async (req, res) => {
 
 //! create new card
 cardRouter.post("/newcard", async (req, res) => {
-  const { cardNumber, cardTitle, cardDescription, cardDesign } = req.body;
+  const { cardNumber, cardTitle, cardDescription, cardDesign, user } = req.body;
   try {
     const newCard = await createCard(
       cardNumber,
       cardTitle,
       cardDescription,
-      cardDesign
+      cardDesign,
+      user
     );
     res.send(newCard);
   } catch (error) {

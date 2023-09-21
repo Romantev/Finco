@@ -73,7 +73,7 @@ const Home = () => {
     //! fetch spendingLimit
     const fetchLimit = async () => {
       try {
-        const card = await axios.get(`/finco/cards/${selectedCard}`);
+        const card = await axios.get(`/api/cards/${selectedCard}`);
         setLimit(card.data.spendingLimit);
       } catch (error) {
         console.log("fetch limit: ", error);
@@ -83,11 +83,9 @@ const Home = () => {
 
     //! fetch transactions
     const fetchTransactions = async () => {
-      console.log({ selectedCard });
       try {
         await getCards();
         cards?.map((card) => {
-          console.log("getCards called from home:", card.title);
           if (card.cardNumber == selectedCard) {
             setTransactions(card.transactions);
           }

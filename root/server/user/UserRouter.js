@@ -16,6 +16,17 @@ userRouter.get("/", async (req, res) => {
   }
 });
 
+//! get one user
+userRouter.get("/secure/:email", async (req, res) => {
+  const email = req.params.email;
+  try {
+    const user = await User.findOne({ email });
+    res.send(user.cards);
+  } catch (error) {
+    res.status(400).send("error in finding one user");
+  }
+});
+
 //! create new user
 userRouter.post("/signup", async (req, res) => {
   const { name, email, password } = req.body;
@@ -52,7 +63,13 @@ userRouter.post("/login", async (req, res) => {
   }
 });
 
+//! logout user
+userRouter.get("/logout", (req, res) => {
+  res.clearCookie("auth");
+  res.send("OK");
+});
+
 //! secure
 userRouter.get("/secure", authenticateToken, async (req, res) => {
-  res.send("SUCCESS");
+  res.send({ email: req.userEmail });
 });

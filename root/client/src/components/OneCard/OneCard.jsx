@@ -17,7 +17,6 @@ const OneCard = ({ cards, card, setRefresh }) => {
   const handleQuestionDelete = () => {
     setSureDelete(true);
   };
-  console.log(card);
 
   //! delete card
   const handleDelete = async () => {

@@ -16,11 +16,11 @@ const SignUp = () => {
   const [passwordErrorMessage, setPasswordErrorMessage] = useState(false);
   const [errorMessage, setErrorMessage] = useState(false);
 
+  const navigate = useNavigate();
+
   useEffect(() => {
     setPasswordErrorMessage(false);
   }, [password, passwordConfirmation]);
-
-  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -35,7 +35,7 @@ const SignUp = () => {
 
         try {
           const response = await axios.post("/api/users/signup", reqBody);
-          navigate("/first-login");
+          navigate("/login");
         } catch (error) {
           console.log("Failed SignUP: ", error);
         }

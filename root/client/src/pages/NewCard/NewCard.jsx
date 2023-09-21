@@ -9,7 +9,6 @@ import axios from "axios";
 import Nav from "../../components/Nav/Nav";
 import Header from "../../components/Header/Header";
 import CardDesign from "../../components/CardDesign/CardDesign";
-import { checkAuthentication } from "../../utils/authUtils";
 
 const NewCard = () => {
   const [cardTitle, setCardTitle] = useState("");
@@ -27,13 +26,12 @@ const NewCard = () => {
     const user = userRes.user.data;
 
     const reqBody = {
-      id: user._id
+      id: user._id,
     };
     if (!reqBody.id) {
-      return null
-    };
-    console.log({ reqBody })
-    const response = await axios.post('/auth-api/users/acc', reqBody);
+      return null;
+    }
+    const response = await axios.post("/auth-api/users/acc", reqBody);
     const userAcc = response.data;
 
     const newCard = {
@@ -42,7 +40,7 @@ const NewCard = () => {
       cardDescription,
       cardDesign: designColor,
       spendingLimit: 0,
-      selected: false
+      selected: false,
     };
 
     await axios.post(`/finco/cards/create/${userAcc._id}`, newCard);

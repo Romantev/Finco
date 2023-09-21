@@ -1,4 +1,3 @@
-
 import "./Header.css";
 
 // import methods
@@ -14,7 +13,6 @@ import { useContext, useEffect, useState } from "react";
 
 // import context
 import { SelectedCardContext } from "../../context/context";
-import { checkAuthentication } from "../../utils/authUtils";
 
 const Header = ({
   searchIsActive,
@@ -51,12 +49,10 @@ const Header = ({
     if (!reqBody.id) {
       return null;
     }
-    console.log({ reqBody });
+
     const response = await axios.post("/auth-api/users/acc", reqBody);
     const userAcc = response.data;
 
-    console.log({ userAcc });
-    console.log({ cards });
     setCards(userAcc.Wallet);
 
     userAcc.Wallet.map((card) => {
@@ -66,19 +62,6 @@ const Header = ({
       }
     });
   };
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        await checkAuthentication();
-        await getCards();
-      } catch (error) {
-        console.error("Error fetching cards:", error);
-      }
-    };
-
-    fetchData();
-  }, [refresh]);
 
   const handleSelectCard = async (event, id) => {
     event.preventDefault();
@@ -92,7 +75,6 @@ const Header = ({
       await Promise.all(
         cards.map(async (card) => {
           if (card.selected === true) {
-            console.log("Currently Selected card: ", card.cardTitle);
             await axios.put(
               `/finco/cards/${card.cardNumber}/update/selected`,
               setFalse
@@ -105,7 +87,6 @@ const Header = ({
     }
 
     try {
-      console.log("Set New Selected Card");
       await axios.put(`/finco/cards/${id}/update/selected/`, setTrue);
       // Now find the selected card again and update the findedCard state
       const response = await axios.get(`/finco/cards/${id}`);
@@ -201,4 +182,3 @@ const Header = ({
 };
 
 export default Header;
-

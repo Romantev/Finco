@@ -14,7 +14,6 @@ import { SelectedCardContext } from "../../context/context";
 // import img
 import selectImg from "../../icon/open-add.png";
 import selectDownImg from "../../icon/down.png";
-import { checkAuthentication } from "../../utils/authUtils";
 
 const AddTransaction = ({ page }) => {
   const { selectedCard, setSelectedCard } = useContext(SelectedCardContext);
@@ -36,30 +35,10 @@ const AddTransaction = ({ page }) => {
     setSpendingLimit(data.spendingLimit);
   };
 
-  const fetchData = async () => {
-    const userRes = await checkAuthentication();
-    const user = userRes.user.data;
-
-    const reqBody = {
-      id: user._id
-    };
-    if (!reqBody.id) {
-      return null
-    };
-
-    const response = await axios.post('/auth-api/users/acc', reqBody);
-    const userAcc = response.data;
-    setCards(userAcc.Wallet);
-
-  };
-
-
   useEffect(() => {
     setTransactionType(page);
 
-
     fetchLimit();
-
 
     fetchData();
 

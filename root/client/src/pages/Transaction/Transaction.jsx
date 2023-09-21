@@ -38,16 +38,13 @@ const Transaction = () => {
 
     const fetchData = async () => {
       try {
-
         const reqBody = {
           category: searchInput,
           date: selectedDate,
-          selectedCard: selectedCard
+          selectedCard: selectedCard,
         };
 
         const { data } = await axios.post(`/finco/transactions`, reqBody);
-
-        console.log({ data })
 
         const sortedData = data.sort((a, b) => {
           return new Date(b.date) - new Date(a.date);
@@ -162,26 +159,26 @@ const Transaction = () => {
               </div>
             ))
           ) : // selected date
-            selectedDate ? (
-              <div>
-                <p className="weekday">
-                  {new Date(selectedDate).toLocaleDateString("en-EN", {
-                    weekday: "long",
-                  })}
-                </p>
-                <h4 className="transactionBigDate">
-                  {selectedDate.split("-").reverse().join(".")}
-                </h4>
-                {transactions?.map((elm) => (
-                  <OneTransaction transaction={elm} key={elm._id} />
-                ))}
-              </div>
-            ) : (
-              // search transactions
-              transactions?.map((elm) => (
+          selectedDate ? (
+            <div>
+              <p className="weekday">
+                {new Date(selectedDate).toLocaleDateString("en-EN", {
+                  weekday: "long",
+                })}
+              </p>
+              <h4 className="transactionBigDate">
+                {selectedDate.split("-").reverse().join(".")}
+              </h4>
+              {transactions?.map((elm) => (
                 <OneTransaction transaction={elm} key={elm._id} />
-              ))
-            )}
+              ))}
+            </div>
+          ) : (
+            // search transactions
+            transactions?.map((elm) => (
+              <OneTransaction transaction={elm} key={elm._id} />
+            ))
+          )}
         </section>
       </main>
       <Nav page={page} />

@@ -18,24 +18,18 @@ const VerifyEmailPage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-
     try {
-
       setState(location.state);
-      console.log("Received State:", state);
 
       setID(state.userID);
       setPreview(state.previewURL);
       setEmail(state.email);
-
-      console.log("VerifyUserID: ", state.userID);
     } catch (error) {
       console.error("Error in VerifyEmailPage:", error);
     }
   }, []);
 
   const handleSubmit = async (e) => {
-
     e.preventDefault();
 
     const userVerify = await axios.get(
@@ -46,7 +40,7 @@ const VerifyEmailPage = () => {
       navigate("/first-login", {
         state: {
           email: email,
-          userAcc: state.userAcc
+          userAcc: state.userAcc,
         },
       });
     }

@@ -1,16 +1,19 @@
 import "./AccountSetup.css";
 // import methods
 import axios from "axios";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 // import components
 import CardDesign from "../../components/CardDesign/CardDesign";
 import HeaderSetup from "../../components/Header/HeaderSetup";
 // import context
 import { PageContext } from "../../context/context";
+import { UserContext } from "../../context/UserContext";
 
 const AccountSetup = () => {
   const { page, setPage } = useContext(PageContext);
+  const { user } = useContext(UserContext);
+
   const [cardTitle, setCardTitle] = useState("");
   const [cardNumber, setCardNumber] = useState("");
   const [cardDescription, setCardDescription] = useState("");
@@ -18,7 +21,6 @@ const AccountSetup = () => {
   const [designIndex, setDesignIndex] = useState(0);
 
   const navigate = useNavigate();
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -29,6 +31,7 @@ const AccountSetup = () => {
         cardDescription: cardDescription,
         cardDesign: designColor,
         selected: true,
+        user,
       };
       const response = await axios.post(`/api/cards/newcard/`, reqBody);
     } catch (error) {
@@ -36,7 +39,7 @@ const AccountSetup = () => {
     }
 
     setPage("account-setup");
-    navigate("/home");
+    navigate("/");
   };
 
   return (

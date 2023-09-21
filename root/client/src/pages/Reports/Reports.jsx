@@ -35,11 +35,10 @@ const Reports = () => {
   const fetchData = async () => {
     try {
       const reqBody = {
-        selectedCard: selectedCard
+        selectedCard: selectedCard,
       };
 
       const { data } = await axios.post(`/finco/transactions`, reqBody);
-      console.log({ data })
 
       const sortedData = data.sort((a, b) => {
         return new Date(b.date) - new Date(a.date);
@@ -52,19 +51,16 @@ const Reports = () => {
   };
 
   useEffect(() => {
-    fetchData()
-    console.log({ transactions })
-  }, [])
+    fetchData();
+  }, []);
 
   //! fetch data
   useEffect(() => {
     setPage("Reports");
     setOpenBox(false);
 
-
     fetchData();
   }, [selectedCard]);
-
 
   //! function for dataForGraph
   const handleDataforGraph = (data) => {
