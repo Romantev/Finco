@@ -1,8 +1,8 @@
 import "./AccountSetup.css";
 // import methods
 import axios from "axios";
-import { useContext, useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
 // import components
 import CardDesign from "../../components/CardDesign/CardDesign";
 import HeaderSetup from "../../components/Header/HeaderSetup";
@@ -21,6 +21,7 @@ const AccountSetup = () => {
   const [designIndex, setDesignIndex] = useState(0);
 
   const navigate = useNavigate();
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -33,11 +34,10 @@ const AccountSetup = () => {
         selected: true,
         user,
       };
-      const response = await axios.post(`/api/cards/newcard/`, reqBody);
+      const response = await axios.post("/api/cards/newcard/", reqBody);
     } catch (error) {
       console.log("create the first card", error);
     }
-
     setPage("account-setup");
     navigate("/");
   };

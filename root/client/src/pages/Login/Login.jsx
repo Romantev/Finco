@@ -37,6 +37,8 @@ const Login = () => {
     try {
       const login = await axios.post("/api/users/login", reqBody);
       refetch();
+      const cards = login.data.data.cards;
+
       if (cards.length === 0) {
         nav("/account-setup");
       } else {

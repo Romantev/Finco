@@ -19,7 +19,6 @@ const Header = ({
   setSearchIsActive,
   goBack,
   welcome,
-  refresh,
   setup,
 }) => {
   const { selectedCard, setSelectedCard } = useContext(SelectedCardContext);
@@ -34,68 +33,19 @@ const Header = ({
 
   const Navigate = useNavigate();
 
+  useEffect(() => {
+    const fetchCards = async () => {
+      const { data } = await axios.get("/api/users");
+      console.log(data[0].cards);
+    };
+
+    fetchCards();
+  }, []);
+
   const navigateBack = () => {
     Navigate(-1);
   };
 
-  const getCards = async () => {
-    const userRes = await checkAuthentication();
-    const user = userRes.user.data;
-    setSelectedName(user.username);
-
-    const reqBody = {
-      id: user._id,
-    };
-    if (!reqBody.id) {
-      return null;
-    }
-
-    const response = await axios.post("/auth-api/users/acc", reqBody);
-    const userAcc = response.data;
-
-    setCards(userAcc.Wallet);
-
-    userAcc.Wallet.map((card) => {
-      if (card.selected === true) {
-        setSelectedCard(card.cardNumber);
-        setFindedCard(card);
-      }
-    });
-  };
-
-  const handleSelectCard = async (event, id) => {
-    event.preventDefault();
-
-    const setFalse = { value: false };
-    const setTrue = { value: true };
-
-    setSelectedCard(id);
-
-    try {
-      await Promise.all(
-        cards.map(async (card) => {
-          if (card.selected === true) {
-            await axios.put(
-              `/finco/cards/${card.cardNumber}/update/selected`,
-              setFalse
-            );
-          }
-        })
-      );
-    } catch (error) {
-      console.log("set all cards to selectedCard: false ", error);
-    }
-
-    try {
-      await axios.put(`/finco/cards/${id}/update/selected/`, setTrue);
-      // Now find the selected card again and update the findedCard state
-      const response = await axios.get(`/finco/cards/${id}`);
-      const card = response.data;
-      setFindedCard(card);
-    } catch (error) {
-      console.log("set selectedCard: true ", error);
-    }
-  };
   return (
     <header className="transactionHeader">
       {/* LOGO */}

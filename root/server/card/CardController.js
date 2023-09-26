@@ -8,19 +8,30 @@ export const createCard = async (
   cardTitle,
   cardDescription,
   cardDesign,
-  spendingLimit,
-  selectedCard,
+  selected,
   user
 ) => {
-  const userId = await User.findOne(user.email);
-  const newCard = await Card.create({
-    cardNumber,
-    cardTitle,
-    cardDescription,
-    cardDesign,
-    spendingLimit,
-    selectedCard,
-  });
+  const userId = await User.findOne(user);
+  let newCard;
+
+  if (!selected) {
+    newCard = await Card.create({
+      cardNumber,
+      cardTitle,
+      cardDescription,
+      cardDesign,
+    });
+  } else {
+    newCard = await Card.create({
+      cardNumber,
+      cardTitle,
+      cardDescription,
+      cardDesign,
+      selectedCard: true,
+    });
+  }
+  console.log(newCard);
+
   await User.findByIdAndUpdate(
     userId._id,
     {

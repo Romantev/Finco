@@ -1,18 +1,22 @@
 import "./Home.css";
+
 // import methods
 import { useContext, useEffect, useState } from "react";
 import axios from "axios";
+
 // import components
 import Nav from "../../components/Nav/Nav.jsx";
 import IncomeExpense from "../../components/IncomeExpense/IncomeExpense";
 import Header from "../../components/Header/Header";
 import Creditcard from "../../components/Creditcard/Creditcard";
+
 // import context
 import {
   OpenBoxContext,
   PageContext,
   SelectedCardContext,
 } from "../../context/context";
+
 // import img
 import DangerIcon from "../../icon/icon-danger.svg";
 import ThreeDot from "../../icon/threedot-icon.svg";
