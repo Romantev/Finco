@@ -1,6 +1,6 @@
 // import methods
 import { useNavigate } from "react-router-dom";
-import { createContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import axios from "axios";
 
 export const UserContext = createContext();

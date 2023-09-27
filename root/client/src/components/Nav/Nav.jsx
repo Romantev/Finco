@@ -18,7 +18,7 @@ const Nav = ({ page }) => {
     <>
       <nav className="nav-bottom">
         <div className="nav-container">
-          <NavLink to="/home" className="nav-link">
+          <NavLink to="/" className="nav-link">
             <div className="nav-site">
               {page === "Home" ? (
                 <p>Home</p>

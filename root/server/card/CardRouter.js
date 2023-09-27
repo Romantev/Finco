@@ -17,13 +17,24 @@ cardRouter.get("/", async (req, res) => {
 });
 
 //! get one card by id
-cardRouter.get("/:id", async (req, res) => {
+cardRouter.get("/:id/:objId", async (req, res) => {
   const cardId = req.params.id;
-  try {
-    const card = await Card.findOne({ cardNumber: cardId });
-    res.json(card);
-  } catch (error) {
-    res.status(400).send("error in finding card by id");
+  const objId = req.params.objId;
+
+  if (objId) {
+    try {
+      const card = await Card.findById(cardId);
+      res.json(card);
+    } catch (error) {
+      console.log("error in finding card by ObjId", error);
+    }
+  } else {
+    try {
+      const card = await Card.findOne({ cardNumber: cardId });
+      res.json(card);
+    } catch (error) {
+      res.status(400).send("error in finding card by id");
+    }
   }
 });
 

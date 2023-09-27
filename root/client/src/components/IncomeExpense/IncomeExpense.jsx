@@ -1,6 +1,6 @@
 import "./IncomeExpense.css";
 // import methods
-import { useCallback, useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 // import img
 import iconUp from "../../icon/icon-up.svg";
 import iconDown from "../../icon/icon-down.svg";

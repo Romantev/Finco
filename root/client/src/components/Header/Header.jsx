@@ -12,7 +12,7 @@ import creditCard from "../../icon/credit-card.png";
 import { useContext, useEffect, useState } from "react";
 
 // import context
-import { SelectedCardContext } from "../../context/context";
+import { CurrendUserContext, SelectedCardContext } from "../../context/context";
 
 const Header = ({
   searchIsActive,
@@ -22,10 +22,10 @@ const Header = ({
   setup,
 }) => {
   const { selectedCard, setSelectedCard } = useContext(SelectedCardContext);
+  const { _, setCurrentUser } = useContext(CurrendUserContext);
 
   const [openCardBox, setOpenCardBox] = useState(false);
 
-  const [cards, setCards] = useState([]);
   const [findedCard, setFindedCard] = useState({});
 
   const [selectedProfile, setSelectedProfile] = useState(null);
@@ -34,12 +34,44 @@ const Header = ({
   const Navigate = useNavigate();
 
   useEffect(() => {
-    const fetchCards = async () => {
-      const { data } = await axios.get("/api/users");
-      console.log(data[0].cards);
+    let currentUser;
+    let cardsId;
+    let cards = [];
+
+    const fetchCurrentUser = async () => {
+      try {
+        const { data } = await axios.get("/api/users/secure");
+        currentUser = data.email;
+        setCurrentUser(data.email);
+      } catch (error) {
+        console.log("get user error", error);
+      }
+      fetchCardsId();
     };
 
-    fetchCards();
+    const fetchCardsId = async () => {
+      try {
+        const { data } = await axios.get(`/api/users/secure/${currentUser}`);
+        cardsId = data;
+      } catch (error) {
+        console.log("get cardsId error", error);
+      }
+      fetchCards();
+    };
+
+    const fetchCards = async () => {
+      const cardObjId = true;
+      try {
+        const cardArrayPromises = await cardsId.map((id) => {
+          return axios.get(`/api/cards/${id}/${cardObjId}`);
+        });
+        const cardArrayResponse = await Promise.all(cardArrayPromises);
+      } catch (error) {
+        console.log("get cards error", error);
+      }
+    };
+
+    fetchCurrentUser();
   }, []);
 
   const navigateBack = () => {
