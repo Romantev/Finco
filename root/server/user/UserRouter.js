@@ -21,7 +21,7 @@ userRouter.get("/secure/:email", async (req, res) => {
   const email = req.params.email;
   try {
     const user = await User.findOne({ email });
-    res.send(user.cards);
+    res.send(user);
   } catch (error) {
     res.status(400).send("error in finding one user");
   }

@@ -1,11 +1,14 @@
 import "./IncomeExpense.css";
+
 // import methods
 import { useContext, useEffect, useState } from "react";
+
 // import img
 import iconUp from "../../icon/icon-up.svg";
 import iconDown from "../../icon/icon-down.svg";
+
+// import context
 import { SelectedCardContext } from "../../context/context";
-import axios from "axios";
 
 const IncomeExpense = ({ sortAmount, transaction }) => {
   const { selectedCard, setSelectedCard } = useContext(SelectedCardContext);

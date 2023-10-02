@@ -31,7 +31,7 @@ const AddTransaction = ({ page }) => {
   const Navigate = useNavigate();
 
   const fetchLimit = async () => {
-    const { data } = await axios.get(`/finco/cards/${selectedCard}`);
+    const { data } = await axios.get(`/api/cards/${selectedCard}`);
     setSpendingLimit(data.spendingLimit);
   };
 
@@ -39,8 +39,6 @@ const AddTransaction = ({ page }) => {
     setTransactionType(page);
 
     fetchLimit();
-
-    fetchData();
 
     // ! defaultValue: date and time
     const today = new Date();
@@ -65,7 +63,7 @@ const AddTransaction = ({ page }) => {
       time: currentTime,
     };
     const response = await axios.post(
-      `/finco/transactions/add/${selectedCard}`,
+      `/api/transactions/newtransaction/${selectedCard}`,
       newTransaction
     );
 

@@ -1,9 +1,13 @@
 import "./AddIncome.css";
 
+// import methods
 import { useContext, useEffect } from "react";
-import { PageContext } from "../../context/context";
 
+// import components
 import AddTransaction from "../../components/AddTransaction/AddTransaction";
+
+// import context
+import { PageContext } from "../../context/context";
 
 const AddIncome = () => {
   const { page, setPage } = useContext(PageContext);

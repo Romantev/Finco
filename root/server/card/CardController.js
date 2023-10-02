@@ -30,7 +30,6 @@ export const createCard = async (
       selectedCard: true,
     });
   }
-  console.log(newCard);
 
   await User.findByIdAndUpdate(
     userId._id,
